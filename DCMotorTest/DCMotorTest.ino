@@ -104,8 +104,8 @@ void setup(){
   }
 
   // wait for connection:
-  delay(100000); //100 seconds
-  // delay(3000);  //3 seconds
+  // delay(100000); //100 seconds
+  delay(3000);  //3 seconds
 
   server.begin(); //port 80
   printWiFiStatus();
@@ -166,13 +166,17 @@ void loop() {
         // Check to see if the client request was "GET /H" or "GET /L":
         if (currentLine.endsWith("GET /H")) {
           digitalWrite(led, HIGH);               // GET /H turns the LED on
-          M1.setDuty(30);
-          M2.setDuty(-30);
+          M1.setDuty(15);
+          M2.setDuty(-15);
+          Serial.print("currentLineRequest:    ");
+          Serial.println(currentLine);
         }
         if (currentLine.endsWith("GET /L")) {
           digitalWrite(led, LOW);                // GET /L turns the LED off
-          M1.setDuty(-30);
-          M2.setDuty(30);
+          M1.setDuty(-15);
+          M2.setDuty(15);
+          Serial.print("currentLineRequest:    ");
+          Serial.println(currentLine);
         }
       }
     }
