@@ -1,4 +1,5 @@
 import pygame
+import requests
 
 
 pygame.init()
@@ -44,14 +45,18 @@ def CurvatureDrive(drive, turn, allowTurnInPlace):
 
 
 
-while True:
-    pygame.event.pump()
-    drive = clamp(deadband(-logiStick.get_axis(1), joystickDeadband), -1.0, 1.0)  #forward is positive
-    turn = clamp(deadband(-logiStick.get_axis(0), joystickDeadband), -1.0, 1.0)   #right (CCW) is positive
-    zTwist = clamp(deadband(-logiStick.get_axis(2), joystickDeadband), -1.0, 1.0)  #CCW is positive
+# while True:
+#     pygame.event.pump()
+#     drive = clamp(deadband(-logiStick.get_axis(1), joystickDeadband), -1.0, 1.0)  #forward is positive
+#     turn = clamp(deadband(-logiStick.get_axis(0), joystickDeadband), -1.0, 1.0)   #right (CCW) is positive
+#     zTwist = clamp(deadband(-logiStick.get_axis(2), joystickDeadband), -1.0, 1.0)  #CCW is positive
 
 
-    WheelSpeeds = CurvatureDrive(drive, turn, False)
-    # print("turn{0}, drive{1}, L{2}, R{3}".format(turn, drive, WheelSpeeds[0], WheelSpeeds[1]))
-    print("L  {0}         R  {1}".format(WheelSpeeds[0], WheelSpeeds[1]))
+#     WheelSpeeds = CurvatureDrive(drive, turn, False)
+#     # print("turn{0}, drive{1}, L{2}, R{3}".format(turn, drive, WheelSpeeds[0], WheelSpeeds[1]))
+#     print("L  {0}         R  {1}".format(WheelSpeeds[0], WheelSpeeds[1]))
+
+
+URL = 'http://192.168.4.1'
+r = requests.get(url = URL, params = 'H')
 
