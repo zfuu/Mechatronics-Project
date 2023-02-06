@@ -67,7 +67,7 @@ num2 = 0 # second floating point number
 
 while True:
     num1 += 1
-    num2 += 1
+    num2 += 10
     message = str(num1) + "," + str(num2)
     sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
     print("message test:  " + message)

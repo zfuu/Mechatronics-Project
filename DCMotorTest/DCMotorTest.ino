@@ -19,28 +19,6 @@ void setup() {
 
   Serial.begin(115200);
 
-  // while (!Serial) {
-
-  //   ; // wait for serial port to connect. Needed for native USB port only
-
-  // }
-
-
-  // if (WiFi.status() == WL_NO_MODULE) {
-
-  //   Serial.println("Communication with WiFi module failed!");
-  //   while (true);
-
-  // }
-
-  // String fv = WiFi.firmwareVersion();
-
-  // if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
-
-  //   Serial.println("Please upgrade the firmware");
-
-  // }
-
   //Connecting to wifi
   while (status != WL_CONNECTED) {
     Serial.print("Attempting to connect to SSID: ");
@@ -69,20 +47,14 @@ void loop() {
     // print out the received message
     Serial.println("Received packet: " + String(incomingPacket));
 
-    // Split the received message into two float numbers
-    // float num1, num2;
-    // sscanf(incomingPacket, "%f,%f", &num1, &num2);
-    // Serial.println("First number: " + String(num1));
-    // Serial.println("Second number: " + String(num2));
-
     char *token;
-
     token = strtok(incomingPacket, ",");
-    while(token != NULL) {
-      Serial.println(token);   
-      token = strtok(NULL, ",");
-   }
-   Serial.println(incomingPacket);  // Proof that original string is chopped up
+  //   while(token != NULL) {
+  //     Serial.println(token);   
+  //     token = strtok(NULL, ",");
+  //  }
+  Serial.println(token); 
+  Serial.println(incomingPacket);  // Proof that original string is chopped up
 
     
 
