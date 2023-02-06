@@ -54,7 +54,8 @@ void loop() {
     left = atoi(token);
     token = strtok(NULL, ",");
     right = atoi(token); 
-    Serial.println("%d, %d", left, right);
+    Serial.print(left);
+    Serial.println(right);
 
 
   // Serial.println(token); 
