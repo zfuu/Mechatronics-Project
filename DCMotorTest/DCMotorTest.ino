@@ -48,16 +48,15 @@ void loop() {
     Serial.println("Received packet: " + String(incomingPacket));
 
     char *token;
+    int left, right = 0;
     token = strtok(incomingPacket, ",");
-  //   while(token != NULL) {
-  //     Serial.println(token);   
-  //     token = strtok(NULL, ",");
-  //  }
+
     Serial.println(token);   
+    left = atoi(token);
     token = strtok(NULL, ",");
-    Serial.println(token);   
-    token = strtok(NULL, ",");
-    Serial.println(token);   
+    Serial.println(token);  
+    right = atoi(token); 
+
 
   // Serial.println(token); 
   // Serial.println(incomingPacket);  // Proof that original string is chopped up
