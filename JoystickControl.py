@@ -30,7 +30,7 @@ def deadband(inputSignal, deadband):
 def clamp(num, min, max):
     return min if num < min else max if num > max else num
 
-def CurvatureDrive(drive, turn, allowTurnInPlace):
+def CurvatureDrive(drive, turn, allowTurnInPlace, maxPower):
     xSpeed = drive
     zRotation = turn
 
@@ -46,6 +46,9 @@ def CurvatureDrive(drive, turn, allowTurnInPlace):
         leftWheelSpeed /= maxMagnitude
         rightWheelSpeed /= maxMagnitude
     
+    leftWheelSpeed = int(leftWheelSpeed * maxPower)
+    rightWheelSpeed = int(rightWheelSpeed * maxPower)
+
     return [leftWheelSpeed, rightWheelSpeed]
 
 
@@ -55,8 +58,8 @@ def CurvatureDrive(drive, turn, allowTurnInPlace):
 sock = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
 
-num1 = 0.141989898985 # first floating point number
-num2 = 0.787078978182 # second floating point number
+num1 = 0 # first floating point number
+num2 = 0 # second floating point number
 
 # message = str(num1) + "," + str(num2)
 
@@ -68,7 +71,7 @@ while True:
     message = str(num1) + "," + str(num2)
     sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
     print("message test:  " + message)
-    time.sleep(0.1)
+    time.sleep(1)
 
 
 # while True:
@@ -78,7 +81,7 @@ while True:
 #     zTwist = clamp(deadband(-logiStick.get_axis(2), joystickDeadband), -1.0, 1.0)  #CCW is positive
 
 
-#     WheelSpeeds = CurvatureDrive(drive, turn, False)
+#     WheelSpeeds = CurvatureDrive(drive, turn, False, 60)
 #     # print("turn{0}, drive{1}, L{2}, R{3}".format(turn, drive, WheelSpeeds[0], WheelSpeeds[1]))
 #     print("L  {0}         R  {1}".format(WheelSpeeds[0], WheelSpeeds[1]))
 

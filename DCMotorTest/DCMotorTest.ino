@@ -70,10 +70,22 @@ void loop() {
     Serial.println("Received packet: " + String(incomingPacket));
 
     // Split the received message into two float numbers
-    float num1, num2;
-    sscanf(incomingPacket, "%f,%f", &num1, &num2);
-    Serial.println("First number: " + String(num1));
-    Serial.println("Second number: " + String(num2));
+    // float num1, num2;
+    // sscanf(incomingPacket, "%f,%f", &num1, &num2);
+    // Serial.println("First number: " + String(num1));
+    // Serial.println("Second number: " + String(num2));
+
+    char *token;
+
+    token = strtok(incomingPacket, ",");
+    while(token != NULL) {
+      Serial.println(token);   
+      token = strtok(NULL, separator);
+   }
+   Serial.println(incomingPacket);  // Proof that original string is chopped up
+
+    
+
   }
 }
 
