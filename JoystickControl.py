@@ -1,7 +1,7 @@
 import pygame
 # import requests
 import socket
-
+import time
 
 
 pygame.init()
@@ -13,8 +13,8 @@ logiStick.init()
 print ("Index {0}:  {1} connected.".format (0, logiStick.get_name()))
 
 
-UDP_IP = "192.168.4.1" # change to the IP of your WIFININA enabled Arduino
-UDP_PORT = 8080
+UDP_IP = "172.20.10.2" # change to the IP of your WIFININA enabled Arduino
+UDP_PORT = 2390
 
 # print(logiStick.get_numaxes())
 
@@ -55,17 +55,20 @@ def CurvatureDrive(drive, turn, allowTurnInPlace):
 sock = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
 
-num1 = 3.1415 # first floating point number
-num2 = 2.7182 # second floating point number
+num1 = 0.141989898985 # first floating point number
+num2 = 0.787078978182 # second floating point number
 
-message = str(num1) + "," + str(num2)
-
+# message = str(num1) + "," + str(num2)
 
 
 
 while True:
+    num1 += 1
+    num2 += 1
+    message = str(num1) + "," + str(num2)
     sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
     print("message test:  " + message)
+    time.sleep(0.1)
 
 
 # while True:

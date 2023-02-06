@@ -5,122 +5,76 @@
 
 int status = WL_IDLE_STATUS;
 
-char ssid[] = SECRET_SSID;        // your network SSID (name)
-char pass[] = SECRET_PASS;    // your network password (use for WPA, or use as key for WEP)
-int keyIndex = 0;            // your network key Index number (needed only for WEP)
+char ssid[] = SECRET_SSID;
+char pass[] = SECRET_PASS;
+int keyIndex = 0;
 
-unsigned int localPort = 2390;      // local port to listen on
+unsigned int localPort = 2390;
 
-char packetBuffer[256]; //buffer to hold incoming packet
-char  ReplyBuffer[] = "acknowledged";       // a string to send back
+char packetBuffer[256];
+char  ReplyBuffer[] = "acknowledged";
 
 WiFiUDP Udp;
 
 void setup() {
 
-  //Initialize serial and wait for port to open:
+  Serial.begin(115200);
 
-  Serial.begin(9600);
+  // while (!Serial) {
 
-  while (!Serial) {
+  //   ; // wait for serial port to connect. Needed for native USB port only
 
-    ; // wait for serial port to connect. Needed for native USB port only
+  // }
 
-  }
 
-  // check for the WiFi module:
+  // if (WiFi.status() == WL_NO_MODULE) {
 
-  if (WiFi.status() == WL_NO_MODULE) {
+  //   Serial.println("Communication with WiFi module failed!");
+  //   while (true);
 
-    Serial.println("Communication with WiFi module failed!");
+  // }
 
-    // don't continue
+  // String fv = WiFi.firmwareVersion();
 
-    while (true);
+  // if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
 
-  }
+  //   Serial.println("Please upgrade the firmware");
 
-  String fv = WiFi.firmwareVersion();
+  // }
 
-  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
-
-    Serial.println("Please upgrade the firmware");
-
-  }
-
-  // attempt to connect to Wifi network:
-
+  //Connecting to wifi
   while (status != WL_CONNECTED) {
-
     Serial.print("Attempting to connect to SSID: ");
-
     Serial.println(ssid);
-
-    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-
     status = WiFi.begin(ssid, pass);
-
-    // wait 10 seconds for connection:
-
     delay(1000);
-
   }
 
   Serial.println("Connected to wifi");
-
   printWifiStatus();
-
   Serial.println("\nStarting connection to server...");
-
-  // if you get a connection, report back via serial:
 
   Udp.begin(localPort);
 }
 
 void loop() {
 
-  // if there's data available, read a packet
-
   int packetSize = Udp.parsePacket();
 
   if (packetSize) {
-
-    Serial.print("Received packet of size ");
-
-    Serial.println(packetSize);
-
-    Serial.print("From ");
-
-    IPAddress remoteIp = Udp.remoteIP();
-
-    Serial.print(remoteIp);
-
-    Serial.print(", port ");
-
-    Serial.println(Udp.remotePort());
-
     // read the packet into packetBufffer
-
-    int len = Udp.read(packetBuffer, 255);
-
+    int len = Udp.read(incomingPacket, 255);
     if (len > 0) {
-
-      packetBuffer[len] = 0;
-
+      incomingPacket[len] = 0;
     }
+    // print out the received message
+    Serial.println("Received packet: " + String(incomingPacket));
 
-    Serial.println("Contents:");
-
-    Serial.println(packetBuffer);
-
-    // send a reply, to the IP address and port that sent us the packet we received
-
-    Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-
-    Udp.write(ReplyBuffer);
-
-    Udp.endPacket();
-
+    // Split the received message into two float numbers
+    float num1, num2;
+    sscanf(incomingPacket, "%f,%f", &num1, &num2);
+    Serial.println("First number: " + String(num1));
+    Serial.println("Second number: " + String(num2));
   }
 }
 
