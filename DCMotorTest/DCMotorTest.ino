@@ -49,11 +49,11 @@ void loop() {
 
     char *token;
     token = strtok(incomingPacket, ",");
-  //   while(token != NULL) {
-  //     Serial.println(token);   
-  //     token = strtok(NULL, ",");
-  //  }
-  Serial.println(token); 
+    while(token != NULL) {
+      Serial.println(token);   
+      token = strtok(NULL, ",");
+   }
+  // Serial.println(token); 
   Serial.println(incomingPacket);  // Proof that original string is chopped up
 
     
