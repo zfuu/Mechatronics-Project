@@ -3,8 +3,8 @@
 #include "arduino_secrets.h"
 
 
-const char* ssid = "test";
-const char* password = "testtest";
+const char* ssid = "Ben's iPhone";
+const char* password = "01234567";
 
 WiFiUDP Udp;
 unsigned int localPort = 8080;
