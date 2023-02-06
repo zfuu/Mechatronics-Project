@@ -51,11 +51,10 @@ void loop() {
     int left, right = 0;
     token = strtok(incomingPacket, ",");
 
-    Serial.println(token);   
     left = atoi(token);
     token = strtok(NULL, ",");
-    Serial.println(token);  
     right = atoi(token); 
+    Serial.println("%d, %d", left, right);
 
 
   // Serial.println(token); 
