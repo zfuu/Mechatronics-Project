@@ -34,6 +34,20 @@ void setup() {
 
   Udp.begin(localPort);
 
+  // //Establishing the communication with the Motor Carrier
+  if (controller.begin()){
+    Serial.print("Motor Carrier connected, firmware version ");
+    Serial.println(controller.getFWVersion());
+  }else{
+    Serial.println("Couldn't connect! Is the red LED blinking? You may need to update the firmware with FWUpdater sketch");
+    while (1);
+  }
+
+  // Reboot the motor controller; brings every value back to default
+  Serial.println("reboot");
+  controller.reboot();
+  delay(500);
+
   int dutyInit = 0; // at 50 it works as expected, at 60 shift sides and is too small duty to move, at 70 is very big duty.
   M1.setDuty(dutyInit);
   M2.setDuty(dutyInit);

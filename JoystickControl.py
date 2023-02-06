@@ -53,9 +53,11 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 
 
+# num1 = 0
+# num2 = 1
 # while True:
 #     num1 += 1
-#     num2 += 10
+#     num2 += 2
 #     message = str(num1) + "," + str(num2)
 #     sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
 #     print("message test:  " + message)
