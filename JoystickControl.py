@@ -71,7 +71,7 @@ while True:
     message = str(num1) + "," + str(num2)
     sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
     print("message test:  " + message)
-    time.sleep(1)
+    time.sleep(0.1)
 
 
 # while True:
