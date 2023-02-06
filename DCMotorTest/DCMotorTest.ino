@@ -12,6 +12,10 @@ unsigned int localPort = 8080;
 void setup() {
   Serial.begin(115200);
 
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB
+  }
+
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);

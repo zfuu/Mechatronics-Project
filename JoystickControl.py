@@ -60,11 +60,12 @@ num2 = 2.7182 # second floating point number
 
 message = str(num1) + "," + str(num2)
 
-sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
-print("message test:  " + message)
 
 
 
+while True:
+    sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
+    print("message test:  " + message)
 
 
 # while True:
