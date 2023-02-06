@@ -12,7 +12,6 @@ int keyIndex = 0;
 unsigned int localPort = 2390;
 
 char incomingPacket[256];
-char  ReplyBuffer[] = "acknowledged";
 
 WiFiUDP Udp;
 
