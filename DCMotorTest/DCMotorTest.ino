@@ -80,7 +80,7 @@ void loop() {
     token = strtok(incomingPacket, ",");
     while(token != NULL) {
       Serial.println(token);   
-      token = strtok(NULL, separator);
+      token = strtok(NULL, ",");
    }
    Serial.println(incomingPacket);  // Proof that original string is chopped up
 
