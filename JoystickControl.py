@@ -1,5 +1,7 @@
 import pygame
-import requests
+# import requests
+import socket
+
 
 
 pygame.init()
@@ -9,6 +11,10 @@ pygame.joystick.init()
 logiStick = pygame.joystick.Joystick(0)
 logiStick.init()
 print ("Index {0}:  {1} connected.".format (0, logiStick.get_name()))
+
+
+UDP_IP = "192.168.4.1" # change to the IP of your WIFININA enabled Arduino
+UDP_PORT = 8080
 
 # print(logiStick.get_numaxes())
 
@@ -45,6 +51,22 @@ def CurvatureDrive(drive, turn, allowTurnInPlace):
 
 
 
+
+sock = socket.socket(socket.AF_INET, # Internet
+                     socket.SOCK_DGRAM) # UDP
+
+num1 = 3.1415 # first floating point number
+num2 = 2.7182 # second floating point number
+
+message = str(num1) + "," + str(num2)
+
+sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
+print("message test:  " + message)
+
+
+
+
+
 # while True:
 #     pygame.event.pump()
 #     drive = clamp(deadband(-logiStick.get_axis(1), joystickDeadband), -1.0, 1.0)  #forward is positive
@@ -56,7 +78,4 @@ def CurvatureDrive(drive, turn, allowTurnInPlace):
 #     # print("turn{0}, drive{1}, L{2}, R{3}".format(turn, drive, WheelSpeeds[0], WheelSpeeds[1]))
 #     print("L  {0}         R  {1}".format(WheelSpeeds[0], WheelSpeeds[1]))
 
-
-URL = 'http://192.168.4.1'
-r = requests.get(url = URL, params = 'H')
 
