@@ -1,3 +1,4 @@
+#include <ArduinoMotorCarrier.h>
 #include <SPI.h>
 #include <WiFiNINA.h>
 #include <WiFiUdp.h>
@@ -32,6 +33,12 @@ void setup() {
   Serial.println("\nStarting connection to server...");
 
   Udp.begin(localPort);
+
+  int dutyInit = 0; // at 50 it works as expected, at 60 shift sides and is too small duty to move, at 70 is very big duty.
+  M1.setDuty(dutyInit);
+  M2.setDuty(dutyInit);
+  Serial.print("Duty init: ");
+  Serial.println(dutyInit);
 }
 
 void loop() {
@@ -57,11 +64,8 @@ void loop() {
     Serial.print(left);
     Serial.println(right);
 
-
-  // Serial.println(token); 
-  // Serial.println(incomingPacket);  // Proof that original string is chopped up
-
-    
+    M1.setDuty(left);
+    M2.setDuty(right);
 
   }
 }
@@ -69,26 +73,17 @@ void loop() {
 void printWifiStatus() {
 
   // print the SSID of the network you're attached to:
-
   Serial.print("SSID: ");
-
   Serial.println(WiFi.SSID());
 
   // print your board's IP address:
-
   IPAddress ip = WiFi.localIP();
-
   Serial.print("IP Address: ");
-
   Serial.println(ip);
-
   // print the received signal strength:
 
   long rssi = WiFi.RSSI();
-
   Serial.print("signal strength (RSSI):");
-
   Serial.print(rssi);
-
   Serial.println(" dBm");
 }

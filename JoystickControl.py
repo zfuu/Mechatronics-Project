@@ -1,5 +1,4 @@
 import pygame
-# import requests
 import socket
 import time
 
@@ -16,10 +15,6 @@ print ("Index {0}:  {1} connected.".format (0, logiStick.get_name()))
 UDP_IP = "172.20.10.2" # change to the IP of your WIFININA enabled Arduino
 UDP_PORT = 2390
 
-# print(logiStick.get_numaxes())
-
-# leftWheelSpeed = 0
-# rightWheelSpeed = 0
 
 joystickDeadband = 0.2
 maxPower = 0.5
@@ -54,35 +49,34 @@ def CurvatureDrive(drive, turn, allowTurnInPlace, maxPower):
 
 
 
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
 
-sock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_DGRAM) # UDP
-
-num1 = 0 # first floating point number
-num2 = 0 # second floating point number
-
-# message = str(num1) + "," + str(num2)
-
-
-
-while True:
-    num1 += 1
-    num2 += 10
-    message = str(num1) + "," + str(num2)
-    sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
-    print("message test:  " + message)
-    time.sleep(0.1)
 
 
 # while True:
-#     pygame.event.pump()
-#     drive = clamp(deadband(-logiStick.get_axis(1), joystickDeadband), -1.0, 1.0)  #forward is positive
-#     turn = clamp(deadband(-logiStick.get_axis(0), joystickDeadband), -1.0, 1.0)   #right (CCW) is positive
-#     zTwist = clamp(deadband(-logiStick.get_axis(2), joystickDeadband), -1.0, 1.0)  #CCW is positive
+#     num1 += 1
+#     num2 += 10
+#     message = str(num1) + "," + str(num2)
+#     sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
+#     print("message test:  " + message)
+#     time.sleep(0.1)
 
 
-#     WheelSpeeds = CurvatureDrive(drive, turn, False, 60)
-#     # print("turn{0}, drive{1}, L{2}, R{3}".format(turn, drive, WheelSpeeds[0], WheelSpeeds[1]))
-#     print("L  {0}         R  {1}".format(WheelSpeeds[0], WheelSpeeds[1]))
+while True:
+    pygame.event.pump()
+    drive = clamp(deadband(-logiStick.get_axis(1), joystickDeadband), -1.0, 1.0)  #forward is positive
+    turn = clamp(deadband(-logiStick.get_axis(0), joystickDeadband), -1.0, 1.0)   #right (CCW) is positive
+    zTwist = clamp(deadband(-logiStick.get_axis(2), joystickDeadband), -1.0, 1.0)  #CCW is positive
+
+
+    WheelSpeeds = CurvatureDrive(drive, turn, False, 60)
+    # print("turn{0}, drive{1}, L{2}, R{3}".format(turn, drive, WheelSpeeds[0], WheelSpeeds[1]))
+    print("L  {0}         R  {1}".format(WheelSpeeds[0], WheelSpeeds[1]))
+    
+    message = str(WheelSpeeds[0]) + "," + str(WheelSpeeds[1])
+    sock.sendto(message.encode(), (UDP_IP, UDP_PORT))
+    print("message out:  " + message)
+    time.sleep(0.1)
+
 
 
